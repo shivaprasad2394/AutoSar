@@ -112,3 +112,9 @@ Four, API extension description
  
 
     Important new usages and interactions that require the introduction of new or modified permission/policy verification logic should be associated with the corresponding new key usage policy flags. For example, alternative supply keys with different ownership/authority checks can be introduced by adding corresponding new key usage policies and enforcing new logic in all key management operations involving those new keys.
+
+cdd layer
+https://kv74rqh2qkfvgylw6g2smjq47y--blog-csdn-net.translate.goog/jsls135/article/details/93641503?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-2.control
+
+com stack
+https://kv74rqh2qkfvgylw6g2smjq47y--blog-csdn-net.translate.goog/h522955926/article/details/81080550?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control
