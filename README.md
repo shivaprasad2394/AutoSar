@@ -118,3 +118,7 @@ https://kv74rqh2qkfvgylw6g2smjq47y--blog-csdn-net.translate.goog/jsls135/article
 
 com stack
 https://kv74rqh2qkfvgylw6g2smjq47y--blog-csdn-net.translate.goog/h522955926/article/details/81080550?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-4.control
+
+
+coloum for autosar with different modules check once
+https://blog.csdn.net/xyfx_fhw/category_9291827.html?utm_source=BWXQ_bottombtn&spm=1001.2101.3001.4225
