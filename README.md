@@ -61,3 +61,54 @@ Crypto (SW) software-implemented encryption algorithm , Such as AES-128 and othe
 The driver of crypto (HW) hardware encryption module. This program usually contains a module in the driver of the chip MCAL, which is used to control HSM (hardware confidential module) or SHE, which is related to the specific chip, such as Freescale's 574x Series chips have HSM module.
 16. HSM
 is not a software module, but a hardware acceleration engine of a hardware chip to implement hardware encryption algorithms. The advantage is that it does not consume cpu resources, and the calculation speed is fast, which may be hundreds of times faster than software calculations.
+
+
+https://translate.googleusercontent.com/translate_c?depth=1&hl=en&prev=search&pto=aue&rurl=translate.google.com&sl=zh-CN&sp=nmt4&u=https://blog.csdn.net/DJAction/article/details/105508687&usg=ALkJrhiO1CnmiBLJHsMmZkIKv51ZpqZnbw&utm_medium=distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control&depth_1-utm_source=distribute.pc_relevant.none-task-blog-searchFromBaidu-13.control
+I. Overview
+
+ 
+
+    The AUTOSAR adaptive platform supports APIs for general encryption operations and security key management. The API supports dynamic generation of keys and encryption jobs at runtime, as well as operations on data streams. In order to reduce storage requirements, the key can be stored internally in the encrypted backend, or it can be stored externally and imported on demand.
+
+    The API is designed to support the encapsulation of security-sensitive operations and decisions in separate components, such as hardware security modules (HSM). Additional protection of keys and key usage can be provided by restricting the key to a specific purpose (for example, decryption only), or restricting the key to the use of a single application as reported by IAM.
+
+    Depending on application support, APIs can also be used to protect session keys and intermediate secrets when dealing with encryption protocols such as TLS and SecOC.
+
+ 
+Two, security architecture
+
+ 
+
+    Although AUTOSAR AP only defines the high-level Crypto Stack API that is exposed to the application, the definition of this API must take into account the security architecture designed to meet the above-mentioned security and functional requirements. The general architecture is shown in Figure 1.
+
+    At the highest level, AUTOSAR AP and native and hybrid applications are linked to the AUTOSAR AP encryption stack API. API implementation can reference a central unit (cryptographic service manager) to implement platform-level tasks, such as consistent access control and certificate storage across applications.
+
+    The implementation can also use a cryptographic service manager to coordinate the offloading of functions to cryptographic drivers, such as a hardware security module (HSM). Indeed, this way of uninstalling the Crypto Stack API is expected to become a typical implementation strategy: Crypto Driver can implement a complete set of key management and encryption functions to speed up encryption operations and protect escrow keys from malicious applications.
+    Figure 1 Encryption stack-reference architecture
+
+    In order to achieve this layered security architecture, the Crypto Stack API not only performs bulk encryption operations, but also provides native support for the following aspects:
+
+    (1) Use encrypted keys or key handles to operate
+
+    (2) Manage keys securely although it may harm the application
+
+    (3) Restrict application access to keys and allowed operations
+
+ 
+Three, key management architecture
+
+ 
+
+    In order to support secure remote management of keys in the event of potential application damage, Crypto Stack integrates a key management architecture, in which keys and related data are managed in an end-to-end protected form. The key can be introduced into the system in a trusted manner based on an existing supply key, or it can be introduced into the system in an untrusted manner through local key generation.
+
+    Assuming that the encryption backend/driver is properly secured, the application will not be able to modify the key unless through a well-defined authorization request (such as key update or revocation).
+    Figure 2 CKI key management interaction
+
+     
+
+ 
+Four, API extension description
+
+ 
+
+    Important new usages and interactions that require the introduction of new or modified permission/policy verification logic should be associated with the corresponding new key usage policy flags. For example, alternative supply keys with different ownership/authority checks can be introduced by adding corresponding new key usage policies and enforcing new logic in all key management operations involving those new keys.
