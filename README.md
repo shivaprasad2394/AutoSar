@@ -53,3 +53,11 @@ Examples include verifying/encrypting large amounts of data or generating asymme
 an obvious solution is to use specialized hardware that can compute the appropriate algorithms-or most of them-in parallel with the main processor. Then AUTOSAR CSM and related encryption libraries only pass the request to this hardware, and in the main function, periodically check whether the result is available. The first of these hardware coprocessors has been designated as a "safe hardware extension" by the manufacturer's software program (HIS) in the past decade. Regarding cryptographic algorithms, this specification is still limited to the implementation of AES-128 in different modes. Therefore, recent developments are often due to a large number of hardware developments or not ideal, so more pure hardware is possible.
 
 
+13.
+The interface layer module of the CRYIF cryptographic service unifies the driver interface of the hardware encryption module and the software encryption module, which can be called downwards, crypto (SW) and crypto (HW).
+14.
+Crypto (SW) software-implemented encryption algorithm , Such as AES-128 and other algorithms.
+15.
+The driver of crypto (HW) hardware encryption module. This program usually contains a module in the driver of the chip MCAL, which is used to control HSM (hardware confidential module) or SHE, which is related to the specific chip, such as Freescale's 574x Series chips have HSM module.
+16. HSM
+is not a software module, but a hardware acceleration engine of a hardware chip to implement hardware encryption algorithms. The advantage is that it does not consume cpu resources, and the calculation speed is fast, which may be hundreds of times faster than software calculations.
