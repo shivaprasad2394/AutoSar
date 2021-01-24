@@ -38,3 +38,18 @@ An example of this classic "background function" is a cryptographic algorithm. S
 
  ![basic arcitecture](https://github.com/shivaprasad2394/AutoSar/blob/main/autosar_csm.png)
  
+Figure 1 Security module in AUTOSAR 4.3 system
+
+For example, it is used by Secure Onboard Communication (SecOC) to verify the signal value in the transmitted data packet in an encrypted manner. As the name suggests, CSM manages encryption services. The actual implementation is in a manufacturer-specific encryption library. In order to support integration into AUTOSAR systems with real-time requirements, CSM processes requests asynchronously: initially, they are only saved, and then processed one by one in the call of CSM MainFunction. To this end, the CSM MainFunction will call the mainformations of all the underlying encryption primitives, and each primitive will then have to calculate several steps.
+
+The calculation time of a typical cryptographic primitive is an order of magnitude higher than the calculation time of a signal processing function. This brings up a dilemma when dividing MainFunction calls: What is the exact range allowed for calculation? Too many calculation steps will make the real-time performance of the entire system questioned, making encryption useless. Too few steps will delay the calculation of longer encryption operations, so that the benefits are limited.
+
+In addition, another effect must be considered: a specific main function is responsible for managing its internal calculation state in order to allow the calculation to be performed gradually. On its own, this state management means overhead. The fewer the actual calculations for a single call, the greater the overhead.
+
+Software vendors should find a standard solution to this problem. In classic scenarios, for example, runtime encryption is used to authenticate smaller data blocks through a symmetric encryption method. One solution might be to calculate a symmetric block for each MainFunction call. However, when using more complex methods, it is difficult to find a reasonable compromise.
+
+Examples include verifying/encrypting large amounts of data or generating asymmetric signatures. For example, assuming that 100µs is calculated every millisecond is acceptable, this is a very optimistic assumption and it is difficult to maintain in most real-time scenarios.
+
+an obvious solution is to use specialized hardware that can compute the appropriate algorithms-or most of them-in parallel with the main processor. Then AUTOSAR CSM and related encryption libraries only pass the request to this hardware, and in the main function, periodically check whether the result is available. The first of these hardware coprocessors has been designated as a "safe hardware extension" by the manufacturer's software program (HIS) in the past decade. Regarding cryptographic algorithms, this specification is still limited to the implementation of AES-128 in different modes. Therefore, recent developments are often due to a large number of hardware developments or not ideal, so more pure hardware is possible.
+
+
